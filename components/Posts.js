@@ -17,7 +17,7 @@ const Posts = () => {
       userImg:
         "https://media.licdn.com/dms/image/C4D03AQHlMq3vFRy6DQ/profile-displayphoto-shrink_800_800/0/1645124997754?e=2147483647&v=beta&t=lCWYwD_G_je1XkeucVLOEDFyBTUprs0V46AFOEJUDo0",
       img: "https://images.unsplash.com/photo-1679872995990-a9811773f3d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMzV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60",
-      caption: "Check them out ",
+      caption: "Check them out !",
     },
   ];
 

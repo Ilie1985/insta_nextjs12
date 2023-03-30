@@ -31,6 +31,18 @@ const Post = ({ post }) => {
         </div>
         <BookmarkIcon className="btn" />
       </div>
+
+      {/* Post Comments */}
+      <p className="p-5 truncate">
+        <span className="font-bold mr-2">{post.username}</span> {post.caption}
+      </p>
+
+      {/* Post Input Part */}
+      <form className="flex items-center p-4">
+        <EmojiHappyIcon className="h-7 "/>
+        <input type="text" placeholder="Enter your comment..." className="border-none flex-1 focus:ring-0"/>
+        <button className="text-blue-400 font-bold">Post</button>
+      </form>
     </div>
   );
 };
