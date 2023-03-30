@@ -22,7 +22,15 @@ const Post = ({ post }) => {
         <DotsHorizontalIcon className="h-5" />
       </div>
       {/* Post Image */}
-      <img src={post.img} alt={post.img} className="object-cover w-full"/>
+      <img src={post.img} alt={post.img} className="object-cover w-full" />
+      {/* Post Button */}
+      <div className="flex justify-between px-4 pt-4">
+        <div className="flex space-x-4">
+          <HeartIcon className="btn" />
+          <ChatIcon className="btn" />
+        </div>
+        <BookmarkIcon className="btn" />
+      </div>
     </div>
   );
 };
