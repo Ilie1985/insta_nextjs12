@@ -22,7 +22,7 @@ const Suggestions = () => {
       </div>
       {suggestion.map((user) => {
         return (
-          <div className="flex items-center justify-between mt-3">
+          <div className="flex items-center justify-between mt-3" key={user.id}>
             <img
               src={user.img}
               alt={user.username}

@@ -2,8 +2,12 @@ import React from "react";
 import Image from "next/image";
 import { SearchIcon, PlusCircleIcon } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Header = () => {
+  const { data: session } = useSession();
+  console.log(session);
+
   return (
     <div className="shadow-sm border-b sticky top-0 bg-white z-30">
       <div className="flex items-center justify-between max-w-6xl mx-4 xl:mx-auto">
@@ -11,16 +15,16 @@ const Header = () => {
         <div className=" cursor-pointer h-24 w-24 relative hidden lg:inline-grid">
           <Image
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2560px-Instagram_logo.svg.png"
-            layout="fill"
             className="object-contain"
+            layout="fill"
           />
         </div>
 
         <div className=" cursor-pointer h-24 w-10 relative lg:hidden">
           <Image
             src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg"
-            layout="fill"
             className="object-contain"
+            layout="fill"
           />
         </div>
 
@@ -31,20 +35,28 @@ const Header = () => {
           </div>
           <input
             type="text"
-            placeholder="Search"
             className="bg-gray-50 pl-10 border-gray-500 text-sm focus:ring-black focus:border-black rounded-md"
+            placeholder="Search"
           />
         </div>
 
         {/* Right */}
         <div className="flex space-x-4 items-center">
           <HomeIcon className="hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" />
-          <PlusCircleIcon className="h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" />
-          <img
-            src="https://media.licdn.com/dms/image/C4D03AQHlMq3vFRy6DQ/profile-displayphoto-shrink_800_800/0/1645124997754?e=2147483647&v=beta&t=lCWYwD_G_je1XkeucVLOEDFyBTUprs0V46AFOEJUDo0"
-            alt="marian-pic"
-            className="h-10 rounded-full cursor-pointer"
-          />
+
+          {session ? (
+            <>
+              <PlusCircleIcon className="h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" />
+              <img
+                src={session.user.image}
+                alt="user-image"
+                className="h-10 rounded-full cursor-pointer"
+                onClick={signOut}
+              />
+            </>
+          ) : (
+            <button onClick={signIn}>Sign In</button>
+          )}
         </div>
       </div>
     </div>
