@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 const Stories = () => {
   const [storyUser, setStoryUser] = useState([]);
   const { data: session } = useSession();
-  console.log(storyUser);
+
   useEffect(() => {
     const storyUsers = minifaker.array(20, (i) => ({
       username: minifaker.username({ locale: "en" }).toLowerCase(),
