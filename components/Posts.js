@@ -14,7 +14,7 @@ const Posts = () => {
       }
     );
     return unsubscribe;
-  }, []);
+  }, [db]);
   return (
     <div>
       {posts.map((post) => {
