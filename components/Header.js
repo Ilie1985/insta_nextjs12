@@ -48,7 +48,7 @@ const Header = () => {
             <>
               <PlusCircleIcon className="h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" />
               <img
-                src={session.user.image}
+                src={session?.user.image}
                 alt="user-image"
                 className="h-10 rounded-full cursor-pointer"
                 onClick={signOut}
