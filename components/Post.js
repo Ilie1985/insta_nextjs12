@@ -123,7 +123,7 @@ const Post = ({ id, username, userImg, img, caption }) => {
             return (
               <div
                 className="flex items-center space-x-2 mb-2"
-                key={comment.id}
+                key={comment.data().id}
               >
                 <img
                   src={comment.data().userImage}
