@@ -7,7 +7,7 @@ import {
   EmojiHappyIcon,
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
-import { useSession } from "next-auth/react";
+
 import {
   addDoc,
   collection,
@@ -21,9 +21,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import Moment from "react-moment";
+import { useRecoilState } from "recoil";
+import { userState } from "../atom/userAtom";
 
 const Post = ({ id, username, userImg, img, caption }) => {
-  const { data: session } = useSession();
+  const [currentUser, setCurrentUser] = useRecoilState(userState);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
@@ -47,12 +49,13 @@ const Post = ({ id, username, userImg, img, caption }) => {
       collection(db, "posts", id, "likes"),
       (snapshot) => setLikes(snapshot.docs)
     );
+    return unsubscribe;
   }, [db]);
 
   useEffect(() => {
     setHasLiked(
       likes.findIndex((like) => {
-        return like.id === session?.user.uid;
+        return like.id === currentUser?.uid;
       }) !== -1
     );
   }, [likes]);
@@ -63,18 +66,18 @@ const Post = ({ id, username, userImg, img, caption }) => {
     setComment("");
     await addDoc(collection(db, "posts", id, "comments"), {
       comment: commentToSend,
-      username: session.user.username,
-      userImage: session.user.image,
+      username: currentUser?.username,
+      userImage: currentUser?.userImg,
       timestamp: serverTimestamp(),
     });
   };
 
   const likePost = async () => {
     if (hasLiked) {
-      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+      await deleteDoc(doc(db, "posts", id, "likes", currentUser?.uid));
     } else {
-      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
-        username: session.user.username,
+      await setDoc(doc(db, "posts", id, "likes", currentUser?.uid), {
+        username: currentUser?.username,
       });
     }
   };
@@ -95,7 +98,7 @@ const Post = ({ id, username, userImg, img, caption }) => {
       <img src={img} alt={img} className="object-cover w-full" />
 
       {/* Post Button */}
-      {session && (
+      {currentUser && (
         <div className="flex justify-between px-4 pt-4">
           <div className="flex space-x-4">
             {hasLiked ? (
@@ -115,7 +118,9 @@ const Post = ({ id, username, userImg, img, caption }) => {
 
       {/* Post Comments */}
       <p className="p-5 truncate">
-        {likes.length > 0 && <p className="font-bold mb-1 ">{likes.length} likes</p>}
+        {likes.length > 0 && (
+          <p className="font-bold mb-1 ">{likes.length} likes</p>
+        )}
         <span className="font-bold mr-2">{username}</span> {caption}
       </p>
       {comments.length > 0 && (
@@ -142,7 +147,7 @@ const Post = ({ id, username, userImg, img, caption }) => {
 
       {/* Post Input Part */}
 
-      {session && (
+      {currentUser && (
         <form className="flex items-center p-4">
           <EmojiHappyIcon className="h-7 " />
           <input
